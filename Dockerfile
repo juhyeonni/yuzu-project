@@ -25,13 +25,18 @@ RUN mv composer.phar /usr/bin/composer
 ## install packages
 RUN composer install --optimize-autoloader --no-dev
 
-
 ## use 9000 port
 EXPOSE 9000
 
 RUN chown www-data:www-data ./bootstrap
 
 RUN php artisan config:cache
+
+RUN php artisan route:cache
+
+RUN php artisan view:cache
+
+# RUN rm -rf .env
 
 ### run php-fpm
 CMD ["php-fpm"]
